@@ -20,6 +20,7 @@ class AzListView extends StatefulWidget {
     this.susItemHeight = kSusItemHeight,
     this.susPosition,
     this.indexHintBuilder,
+    this.ignoreIndexHintBuilder = false,
     this.indexBarData = kIndexBarData,
     this.indexBarWidth = kIndexBarWidth,
     this.indexBarHeight,
@@ -70,6 +71,9 @@ class AzListView extends StatefulWidget {
   /// IndexHintBuilder.
   final IndexHintBuilder? indexHintBuilder;
 
+  /// Ignores index hint builder resulting in no hints being built
+  final bool ignoreIndexHintBuilder;
+
   /// Index data.
   final List<String> indexBarData;
 
@@ -118,10 +122,8 @@ class _AzListViewState extends State<AzListView> {
   @override
   void initState() {
     super.initState();
-    itemScrollController =
-        widget.itemScrollController ?? ItemScrollController();
-    itemPositionsListener =
-        widget.itemPositionsListener ?? ItemPositionsListener.create();
+    itemScrollController = widget.itemScrollController ?? ItemScrollController();
+    itemPositionsListener = widget.itemPositionsListener ?? ItemPositionsListener.create();
     dragListener.dragDetails.addListener(_valueChanged);
     if (widget.indexBarOptions.selectItemDecoration != null) {
       itemPositionsListener.itemPositions.addListener(_positionsChanged);
@@ -157,23 +159,18 @@ class _AzListViewState extends State<AzListView> {
   void _valueChanged() {
     IndexBarDragDetails details = dragListener.dragDetails.value;
     String tag = details.tag!;
-    if (details.action == IndexBarDragDetails.actionDown ||
-        details.action == IndexBarDragDetails.actionUpdate) {
+    if (details.action == IndexBarDragDetails.actionDown || details.action == IndexBarDragDetails.actionUpdate) {
       selectTag = tag;
       _scrollTopIndex(tag);
     }
   }
 
   void _positionsChanged() {
-    Iterable<ItemPosition> positions =
-        itemPositionsListener.itemPositions.value;
+    Iterable<ItemPosition> positions = itemPositionsListener.itemPositions.value;
     if (positions.isNotEmpty) {
-      ItemPosition itemPosition = positions
-          .where((ItemPosition position) => position.itemTrailingEdge > 0)
-          .reduce((ItemPosition min, ItemPosition position) =>
-              position.itemTrailingEdge < min.itemTrailingEdge
-                  ? position
-                  : min);
+      ItemPosition itemPosition = positions.where((ItemPosition position) => position.itemTrailingEdge > 0).reduce(
+          (ItemPosition min, ItemPosition position) =>
+              position.itemTrailingEdge < min.itemTrailingEdge ? position : min);
       int index = itemPosition.index;
       String tag = widget.data[index].getSuspensionTag();
       if (selectTag != tag) {
@@ -209,6 +206,7 @@ class _AzListViewState extends State<AzListView> {
             itemHeight: widget.indexBarItemHeight,
             margin: widget.indexBarMargin,
             indexHintBuilder: widget.indexHintBuilder,
+            ignoreIndexHintBuilder: widget.ignoreIndexHintBuilder,
             indexBarDragListener: dragListener,
             options: widget.indexBarOptions,
             controller: indexBarController,
