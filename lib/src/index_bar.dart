@@ -222,6 +222,7 @@ class IndexBar extends StatefulWidget {
   IndexBar({
     Key? key,
     this.data = kIndexBarData,
+    this.validIndexBarData,
     this.width = kIndexBarWidth,
     this.height,
     this.itemHeight = kIndexBarItemHeight,
@@ -236,6 +237,9 @@ class IndexBar extends StatefulWidget {
 
   /// Index data.
   final List<String> data;
+
+  /// Valid index data so index bar can update only when interacting with valid data.
+  final List<String>? validIndexBarData;
 
   /// IndexBar width(def:30).
   final double width;
@@ -252,7 +256,7 @@ class IndexBar extends StatefulWidget {
   /// IndexHint Builder
   final IndexHintBuilder? indexHintBuilder;
 
-  /// Ignores index hint builder resulting in no hints being built
+  /// Ignores index hint builder resulting in no hints being built.
   final bool ignoreIndexHintBuilder;
 
   /// IndexBar drag listener.
@@ -287,6 +291,11 @@ class _IndexBarState extends State<IndexBar> {
   void _valueChanged() {
     if (widget.indexBarDragNotifier == null) return;
     IndexBarDragDetails details = widget.indexBarDragNotifier!.dragDetails.value;
+
+    if (widget.validIndexBarData != null && !widget.validIndexBarData!.contains(details.tag!)) {
+      return;
+    }
+
     selectIndex = details.index!;
     indexTag = details.tag!;
     action = details.action!;
@@ -309,6 +318,10 @@ class _IndexBarState extends State<IndexBar> {
   }
 
   bool _isActionDown() {
+    if (widget.validIndexBarData != null && !widget.validIndexBarData!.contains(indexTag)) {
+      return false;
+    }
+
     return action == IndexBarDragDetails.actionDown || action == IndexBarDragDetails.actionUpdate;
   }
 

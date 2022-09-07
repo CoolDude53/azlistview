@@ -22,6 +22,7 @@ class AzListView extends StatefulWidget {
     this.indexHintBuilder,
     this.ignoreIndexHintBuilder = false,
     this.indexBarData = kIndexBarData,
+    this.validIndexBarData,
     this.indexBarWidth = kIndexBarWidth,
     this.indexBarHeight,
     this.indexBarItemHeight = kIndexBarItemHeight,
@@ -71,11 +72,14 @@ class AzListView extends StatefulWidget {
   /// IndexHintBuilder.
   final IndexHintBuilder? indexHintBuilder;
 
-  /// Ignores index hint builder resulting in no hints being built
+  /// Ignores index hint builder resulting in no hints being built.
   final bool ignoreIndexHintBuilder;
 
   /// Index data.
   final List<String> indexBarData;
+
+  /// Valid index data so index bar can update only when interacting with valid data.
+  final List<String>? validIndexBarData;
 
   /// IndexBar Width.
   final double indexBarWidth;
@@ -201,6 +205,7 @@ class _AzListViewState extends State<AzListView> {
           alignment: widget.indexBarAlignment,
           child: IndexBar(
             data: widget.indexBarData,
+            validIndexBarData: widget.validIndexBarData,
             width: widget.indexBarWidth,
             height: widget.indexBarHeight,
             itemHeight: widget.indexBarItemHeight,
