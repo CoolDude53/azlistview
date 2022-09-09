@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -155,8 +157,30 @@ class _AzListViewState extends State<AzListView> {
 
   void _scrollTopIndex(String tag) {
     int index = _getIndex(tag);
+    ItemPosition lastPosition = itemPositionsListener.itemPositions.value
+        .reduce((max, position) => position.index > max.index ? position : max);
+
+    ItemPosition firstPosition = itemPositionsListener.itemPositions.value
+        .where((ItemPosition position) => position.itemTrailingEdge > 0)
+        .reduce((ItemPosition min, ItemPosition position) =>
+            position.itemTrailingEdge < min.itemTrailingEdge ? position : min);
+
+    // if the last position is already shown in viewport
+    if (lastPosition.index == widget.itemCount - 1) {
+      // if the last element is already fully in the viewport
+      if (lastPosition.itemTrailingEdge <= 1) {
+        // allow if jumping to something outside of the viewport
+        if (firstPosition.index < index) {
+          return;
+        }
+      }
+    }
+
+    int runOffCorrection = firstPosition.index + widget.itemCount - lastPosition.index;
+    int jumpTo = min(index, runOffCorrection);
+
     if (index != -1) {
-      itemScrollController.jumpTo(index: index);
+      itemScrollController.jumpTo(index: jumpTo);
     }
   }
 
