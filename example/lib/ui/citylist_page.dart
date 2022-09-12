@@ -141,7 +141,7 @@ class _CityListPageState extends State<CityListPage> {
                           return Utils.getListItem(context, model);
                         },
                         padding: EdgeInsets.zero,
-                        susItemBuilder: (BuildContext context, int index) {
+                        susItemBuilder: (BuildContext context, int index, {bool active = false}) {
                           CityModel model = cityList[index];
                           String tag = model.getSuspensionTag();
                           return Utils.getSusItem(context, tag);

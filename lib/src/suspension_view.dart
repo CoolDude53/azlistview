@@ -41,7 +41,7 @@ class SuspensionView extends StatefulWidget {
   final ItemPositionsListener? itemPositionsListener;
 
   /// Called to build suspension header.
-  final IndexedWidgetBuilder? susItemBuilder;
+  final Widget Function(BuildContext context, int index, {bool active})? susItemBuilder;
 
   /// Suspension item Height.
   final double susItemHeight;
@@ -101,6 +101,8 @@ class _SuspensionViewState extends State<SuspensionView> {
         ItemPosition itemPosition = positions.where((ItemPosition position) => position.itemTrailingEdge > 0).reduce(
             (ItemPosition min, ItemPosition position) =>
                 position.itemTrailingEdge < min.itemTrailingEdge ? position : min);
+        if (itemPosition.itemLeadingEdge > 0 || (itemPosition.index == 0 && itemPosition.itemLeadingEdge == 0))
+          return const Offstage();
 
         int index = itemPosition.index;
         double left = 0;
@@ -124,7 +126,7 @@ class _SuspensionViewState extends State<SuspensionView> {
         return Positioned(
           left: left,
           top: top,
-          child: widget.susItemBuilder!(ctx, index),
+          child: widget.susItemBuilder!(ctx, index, active: top <= 0),
         );
       },
     );
@@ -138,7 +140,7 @@ class _SuspensionViewState extends State<SuspensionView> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        widget.susItemBuilder!(context, index),
+        widget.susItemBuilder!(context, index, active: false),
         widget.itemBuilder(context, index),
       ],
     );

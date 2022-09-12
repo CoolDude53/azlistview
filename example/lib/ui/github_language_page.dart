@@ -167,7 +167,7 @@ class _GitHubLanguagePageState extends State<GitHubLanguagePage> {
                   return getListItem(context, model);
                 },
                 itemScrollController: itemScrollController,
-                susItemBuilder: (BuildContext context, int index) {
+                susItemBuilder: (BuildContext context, int index, {bool active = false}) {
                   Languages model = dataList[index];
                   return getSusItem(context, model.getSuspensionTag());
                 },

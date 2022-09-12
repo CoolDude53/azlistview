@@ -63,7 +63,7 @@ class AzListView extends StatefulWidget {
   final EdgeInsets? padding;
 
   /// Called to build suspension header.
-  final IndexedWidgetBuilder? susItemBuilder;
+  final Widget Function(BuildContext context, int index, {bool active})? susItemBuilder;
 
   /// Suspension widget Height.
   final double susItemHeight;

@@ -96,7 +96,7 @@ class _ContactsPageState extends State<ContactsPage> {
           );
         },
         physics: BouncingScrollPhysics(),
-        susItemBuilder: (BuildContext context, int index) {
+        susItemBuilder: (BuildContext context, int index, {bool active = false}) {
           ContactInfo model = contactList[index];
           if ('↑' == model.getSuspensionTag()) {
             return Container();

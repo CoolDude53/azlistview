@@ -128,7 +128,7 @@ class _CityListCustomHeaderPageState extends State<CityListCustomHeaderPage> {
                   susHeight: susItemHeight);
             },
             susItemHeight: susItemHeight,
-            susItemBuilder: (BuildContext context, int index) {
+            susItemBuilder: (BuildContext context, int index, {bool active = false}) {
               CityModel model = cityList[index];
               String tag = model.getSuspensionTag();
               if (imgFavorite == tag) {

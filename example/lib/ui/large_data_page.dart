@@ -42,7 +42,7 @@ class _LargeDataPageState extends State<LargeDataPage> {
         },
         physics: BouncingScrollPhysics(),
         susItemHeight: susItemHeight,
-        susItemBuilder: (BuildContext context, int index) {
+        susItemBuilder: (BuildContext context, int index, {bool active = false}) {
           CityModel model = cityList[index];
           return Utils.getSusItem(context, model.getSuspensionTag());
         },

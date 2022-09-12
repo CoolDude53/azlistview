@@ -98,7 +98,7 @@ class _CarModelsPageState extends State<CarModelsPage> {
               susHeight: susItemHeight);
         },
         susItemHeight: susItemHeight,
-        susItemBuilder: (BuildContext context, int index) {
+        susItemBuilder: (BuildContext context, int index, {bool active = false}) {
           ContactInfo model = contactList[index];
           if ('选' == model.getSuspensionTag()) {
             return Container();
