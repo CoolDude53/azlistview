@@ -101,8 +101,6 @@ class _SuspensionViewState extends State<SuspensionView> {
         ItemPosition itemPosition = positions.where((ItemPosition position) => position.itemTrailingEdge > 0).reduce(
             (ItemPosition min, ItemPosition position) =>
                 position.itemTrailingEdge < min.itemTrailingEdge ? position : min);
-        if (itemPosition.itemLeadingEdge > 0 || (itemPosition.index == 0 && itemPosition.itemLeadingEdge == 0))
-          return const Offstage();
 
         int index = itemPosition.index;
         double left = 0;
