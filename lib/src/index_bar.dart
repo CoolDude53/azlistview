@@ -523,7 +523,7 @@ class _BaseIndexBarState extends State<BaseIndexBar> {
   _triggerDragEvent(int action) {
     if (widget.hapticFeedback &&
         (action == IndexBarDragDetails.actionDown || action == IndexBarDragDetails.actionUpdate)) {
-      HapticFeedback.vibrate();
+      HapticFeedback.lightImpact();
     }
     widget.indexBarDragNotifier?.dragDetails.value = IndexBarDragDetails(
       action: action,
