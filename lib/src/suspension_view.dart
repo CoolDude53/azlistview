@@ -148,21 +148,23 @@ class _SuspensionViewState extends State<SuspensionView> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        widget.itemCount == 0
-            ? const Offstage()
-            : ScrollablePositionedList.builder(
-                itemCount: widget.itemCount,
-                itemBuilder: (context, index) => _buildItem(context, index),
-                itemScrollController: itemScrollController,
-                itemPositionsListener: itemPositionsListener,
-                physics: widget.physics,
-                padding: widget.padding,
-                minCacheExtent: widget.minCacheExtent,
-              ),
-        _buildSusWidget(context),
-      ],
+    return Padding(
+      padding: widget.padding ?? EdgeInsets.zero,
+      child: Stack(
+        children: <Widget>[
+          widget.itemCount == 0
+              ? const Offstage()
+              : ScrollablePositionedList.builder(
+                  itemCount: widget.itemCount,
+                  itemBuilder: (context, index) => _buildItem(context, index),
+                  itemScrollController: itemScrollController,
+                  itemPositionsListener: itemPositionsListener,
+                  physics: widget.physics,
+                  minCacheExtent: widget.minCacheExtent,
+                ),
+          _buildSusWidget(context),
+        ],
+      ),
     );
   }
 }

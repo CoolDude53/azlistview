@@ -176,7 +176,7 @@ class _AzListViewState extends State<AzListView> {
       }
     }
 
-    int runOffCorrection = firstPosition.index + widget.itemCount - lastPosition.index;
+    int runOffCorrection = firstPosition.index + widget.itemCount - lastPosition.index + 1;
     int jumpTo = min(index, runOffCorrection);
 
     if (index != -1) {
